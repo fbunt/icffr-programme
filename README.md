@@ -12,4 +12,4 @@ Rebuild after the organisers change the lists:
 python3 scripts/build_data.py
 ```
 
-It prints codes that appear in the grid with no listing, scheduled talks with no matched abstract or speaker country, listed talks missing from the grid, and any room, poster-board or speaker differences between the grid and the detailed programme. If the grid itself changes, edit `data/schedule.json`.
+Poster boards come from the detailed programme, which states one per poster; the PDF table is the fallback. The script prints codes that appear in the grid with no listing, scheduled talks with no matched abstract or speaker country, listed talks missing from the grid, and any room, poster-board or speaker differences between the grid and the detailed programme. If the grid itself changes, edit `data/schedule.json`.

@@ -121,6 +121,30 @@ def parse_timeline(page):
     return out
 
 
+def regroup_poster_boards(posters, timeline):
+    """Poster boards per day, taking each poster's board from the detailed
+    programme (which states it per poster) and falling back to the board
+    group read off the PDF table. Boards that only carry a note (e.g. the
+    FAO Fire Hub screen) are kept as they are."""
+    def board_key(label):
+        m = re.search(r"\d+", label)
+        return (int(m.group()) if m else 99, label)
+    out = []
+    for day in posters:
+        groups, notes = {}, []
+        for board in day["boards"]:
+            label, codes = board[0], board[1]
+            if len(board) > 2 and not codes:
+                notes.append(board)
+                continue
+            for c in codes:
+                groups.setdefault((timeline.get(c) or {}).get("board") or label, []).append(c)
+        boards = [[label, codes] for label, codes in groups.items()] + notes
+        boards.sort(key=lambda b: board_key(b[0]))
+        out.append({**day, "boards": boards})
+    return out
+
+
 def same_person(a, b):
     """Name variants of one person ("Fábio M. Silva" / "Fábio Miguel Martins da
     Silva", "Mosbah Omar" / "Omar Mosbah", "Gómez González" / "Gómez-González"):
@@ -260,6 +284,7 @@ def main():
     grid_board = {c: b[0] for p in schedule["posters"] for b in p["boards"] for c in b[1]}
     board_diff = [f"{c} (grid {grid_board[c]}, detailed {timeline[c]['board']})" for c in sorted(grid_board)
                   if c in timeline and timeline[c]["board"] and timeline[c]["board"] not in grid_board[c]]
+    schedule["posters"] = regroup_poster_boards(schedule["posters"], timeline)
     room_diff = [f"{c} (grid {grid_room[c]}, detailed {timeline[c]['room']})" for c in sorted(grid_room)
                  if c in timeline and timeline[c]["room"] and norm(timeline[c]["room"]) != norm(grid_room[c])]
 
@@ -273,7 +298,7 @@ def main():
     print(f"in code lists but not in grid ({len(unscheduled)}): {' '.join(unscheduled)}")
     print(f"detailed programme: {len(timeline)} codes; scheduled talks without speaker country ({len(no_country)}): {' '.join(no_country)}")
     print(f"room differs between grid and detailed programme ({len(room_diff)}): {'; '.join(room_diff)}")
-    print(f"poster board differs ({len(board_diff)}): {'; '.join(board_diff)}")
+    print(f"poster boards taken from the detailed programme where they differ from the PDF ({len(board_diff)}): {'; '.join(board_diff)}")
     print(f"wrote {dest.relative_to(ROOT)} ({dest.stat().st_size // 1024} KB)")
 
 
