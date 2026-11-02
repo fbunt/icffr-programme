@@ -267,20 +267,44 @@
   }
 
   // ---- panel (click / tap) ----
+  // Opening the panel adds one history entry, so the phone/browser back button closes it
+  // instead of leaving the site. Switching talks while it is open reuses that entry.
   const panel = $("#panel"), scrim = $("#scrim");
-  function openPanel(code, push = true) {
+  const baseURL = () => location.pathname + location.search;
+  const codeURL = (code) => "#" + encodeURIComponent(code);
+  let panelEntry = false; // true while the panel owns a history entry we pushed
+  function showPanel(code) {
     hideTip();
     $("#panel-body").innerHTML = detailHTML(code, true);
     panel.hidden = false;
     scrim.hidden = false;
-    panel.scrollTop = 0;
-    if (push) history.replaceState(null, "", "#" + encodeURIComponent(code));
   }
-  function closePanel() {
+  function openPanel(code) {
+    const wasOpen = !panel.hidden;
+    showPanel(code);
+    panel.scrollTop = 0;
+    if (wasOpen && panelEntry) history.replaceState({ panel: code }, "", codeURL(code));
+    else { history.pushState({ panel: code }, "", codeURL(code)); panelEntry = true; }
+  }
+  function refreshPanel(code) { // re-render in place (e.g. after starring) without touching history
+    const top = panel.scrollTop;
+    showPanel(code);
+    panel.scrollTop = top;
+  }
+  function hidePanel() {
     panel.hidden = true;
     scrim.hidden = true;
-    history.replaceState(null, "", location.pathname + location.search);
   }
+  function closePanel() {
+    hidePanel();
+    if (panelEntry) { panelEntry = false; history.back(); }
+    else history.replaceState(null, "", baseURL());
+  }
+  addEventListener("popstate", (ev) => {
+    const code = ev.state && ev.state.panel;
+    if (code && E[code]) { showPanel(code); panelEntry = true; } // forward button
+    else { hidePanel(); panelEntry = false; }
+  });
 
   // ---- events ----
   document.addEventListener("click", (ev) => {
@@ -303,7 +327,7 @@
       stars.has(c) ? stars.delete(c) : stars.add(c);
       store.set("icffr-stars", [...stars]);
       render();
-      openPanel(c, false);
+      refreshPanel(c);
       return;
     }
     if (t === scrim || t.closest("#panel-close")) closePanel();
@@ -333,7 +357,9 @@
     const s = (slots[hash] || [])[0];
     tab = s && !s.room.startsWith("Poster") ? s.date : E[hash].kind === "keynote" ? tab : "posters";
     render();
-    openPanel(hash, false);
+    // put a plain entry underneath so back from a shared link closes the panel and stays on the site
+    history.replaceState(null, "", baseURL());
+    openPanel(hash);
   }
   const nowRow = document.querySelector("tr.now");
   if (nowRow) nowRow.scrollIntoView({ block: "center" });
