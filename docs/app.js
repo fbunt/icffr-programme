@@ -44,7 +44,9 @@
   // ---- search ----
   const haystack = {};
   for (const [code, e] of Object.entries(E)) {
-    haystack[code] = [code, e.title, e.presenter, (e.authors || []).join(" "), e.keywords, e.abstract,
+    const alt = e.altSpeaker || {};
+    haystack[code] = [code, e.title, e.presenter, e.country, e.institution, (e.authors || []).join(" "), e.keywords, e.abstract,
+      alt.speaker, alt.country, alt.institution,
       ...(e.conflicts || []).flatMap((c) => [c.title, c.presenter])].join(" \n ").toLowerCase();
   }
   const fold = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -81,7 +83,7 @@
       <span class="star" aria-label="starred">★</span>
       <div class="code">${esc(head)}${opts.room ? `<span class="room">${esc(opts.room)}</span>` : ""}</div>
       <div class="t">${esc(e.title)}</div>
-      ${e.kind === "keynote" || opts.noPresenter ? "" : `<div class="p">${esc(e.presenter)}</div>`}
+      ${e.kind === "keynote" || opts.noPresenter ? "" : `<div class="p">${esc(e.presenter)}${e.country ? ` · ${esc(e.country)}` : ""}</div>`}
     </button>`;
   }
 
@@ -195,6 +197,10 @@
   }
 
   // ---- detail content ----
+  const affiliation = (country, institution) => {
+    const parts = [country, institution].filter(Boolean);
+    return parts.length ? `<br><span class="d-aff">${esc(parts.join(" · "))}</span>` : "";
+  };
   function detailHTML(code, full) {
     const e = E[code];
     if (!e) return `<div class="d-title">${esc(code)}</div><p>No details listed for this code.</p>`;
@@ -204,7 +210,11 @@
     let html = `<div class="d-head"><span class="d-code th-${e.kind === "keynote" ? "KN" : e.theme}">${esc(code)}</span><span class="d-theme">${esc(theme)}</span></div>
       <div class="d-title">${esc(e.title)}</div>
       <div class="d-when">${when}</div>
-      <div class="d-who"><b>${esc(e.presenter)}</b>${authors.length > 1 ? `<br><span class="d-theme">${esc(authors.join(", "))}</span>` : ""}</div>`;
+      <div class="d-who"><b>${esc(e.presenter)}</b>${affiliation(e.country, e.institution)}${authors.length > 1 ? `<br><span class="d-theme">${esc(authors.join(", "))}</span>` : ""}</div>`;
+    if (e.altSpeaker) {
+      const a = e.altSpeaker;
+      html += `<div class="d-warn">The organisers' detailed programme lists the speaker as <b>${esc(a.speaker)}</b>${affiliation(a.country, a.institution)}</div>`;
+    }
     if (full) html += `<button class="star-btn${stars.has(code) ? " on" : ""}" data-star="${esc(code)}">${stars.has(code) ? "★ Starred" : "☆ Star"}</button>`;
     if (e.conflicts) {
       html += `<div class="d-warn">⚠ The organisers' by-theme list also gives code ${esc(code)} to:` +

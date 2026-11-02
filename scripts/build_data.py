@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Build docs/programme.js from the conference website and data/schedule.json.
 
-Fetches the public oral/poster code lists, the public abstracts listing and
-the keynote pages from events.adai.pt, joins them on presentation code and
-title, and writes a single JS data file the static site loads.
+Fetches the public oral/poster code lists, the public abstracts listing, the
+detailed programme (event timeline) and the keynote pages from
+events.adai.pt, joins them on presentation code and title, and writes a
+single JS data file the static site loads.
 
-Only public, presentation-level fields are kept (title, presenter, authors,
-theme, keywords, abstract). Emails, ORCIDs and review comments that the
+Only public, presentation-level fields are kept (title, presenter, speaker
+country and institution, authors, theme, keywords, abstract). Emails, ORCIDs and review comments that the
 abstracts page also embeds are deliberately dropped.
 
 Usage: python3 scripts/build_data.py
@@ -90,6 +91,42 @@ def merge_code_lists(primary, secondary):
             print(f"warning: {code} is given to {len(uniq)} different talks", file=sys.stderr)
         merged[code] = entry
     return merged
+
+
+def parse_timeline(page):
+    """Speaker country/institution and room per code from the detailed programme.
+
+    Each talk is a `sub-activity-item` block holding a `badge-code` span, a
+    room line and a "Speaker:" line of the form
+    <b>Name</b><i>, Country</i><i style=...>, Institution</i>; either italic
+    part may be missing (the institution one carries a style attribute)."""
+    out = {}
+    for block in page.split("sub-activity-item")[1:]:
+        m_code = re.search(r'badge-code[^>]*>\s*([A-Z_0-9]+)(?:\s*\|\s*TV\s*(\d+))?\s*<', block)
+        if not m_code or not CODE_RE.match(m_code.group(1)):
+            continue
+        code = m_code.group(1)
+        m_room = re.search(r"fa-location-dot[^>]*></i>\s*([^<]+?)\s*<", block)
+        m_spk = re.search(r"Speaker:</span>\s*<span[^>]*>\s*<span class=\"fw-bold[^\"]*\">([^<]*)</span>"
+                          r"((?:<span class=\"text-muted fst-italic\"[^>]*>[^<]*</span>)*)", block)
+        info = {"room": html.unescape(m_room.group(1)).strip() if m_room else "",
+                "board": "TV" + m_code.group(2) if m_code.group(2) else ""}
+        if m_spk:
+            info["speaker"] = html.unescape(m_spk.group(1)).strip()
+            for attrs, val in re.findall(r'<span class="text-muted fst-italic"([^>]*)>([^<]*)</span>', m_spk.group(2)):
+                val = html.unescape(val).strip(" ,\n\t")
+                if val:
+                    info["institution" if "style=" in attrs else "country"] = val
+        out.setdefault(code, info)
+    return out
+
+
+def same_person(a, b):
+    """Name variants of one person ("Fábio M. Silva" / "Fábio Miguel Martins da
+    Silva", "Mosbah Omar" / "Omar Mosbah", "Gómez González" / "Gómez-González"):
+    at least two full name parts in common, ignoring initials."""
+    parts = lambda n: {norm(t) for t in re.split(r"[\s\-]+", n) if len(norm(t)) > 1}
+    return len(parts(a) & parts(b)) >= 2
 
 
 def parse_abstracts(page):
@@ -176,6 +213,21 @@ def main():
         entries[code] = t
     unmatched = match_abstracts(entries, abstracts)
 
+    timeline = parse_timeline(fetch("event-timeline/timeline"))
+    for code, info in timeline.items():
+        e = entries.get(code)
+        if not e:
+            continue
+        spk = info.get("speaker", "")
+        if spk and not same_person(spk, e["presenter"]):
+            # a different person: keep their details apart rather than attach them to the listed presenter
+            e["altSpeaker"] = {k: info[k] for k in ("speaker", "country", "institution") if info.get(k)}
+            print(f"speaker differs {code}: code list says {e['presenter']!r}, detailed programme says {spk!r}")
+            continue
+        for k in ("country", "institution"):
+            if info.get(k):
+                e[k] = info[k]
+
     for i, slug in enumerate(KEYNOTE_PAGES, start=1):
         k = parse_keynote(fetch(slug), i)
         k.update({"theme": "KN", "kind": "keynote"})
@@ -195,6 +247,21 @@ def main():
     missing = sorted(c for c in scheduled if c not in entries)
     unscheduled = sorted(c for c in entries if c not in scheduled)
     no_abstract = sorted(c for c in unmatched if c in scheduled)
+    no_country = sorted(c for c in scheduled if c in entries and entries[c]["kind"] != "keynote" and not entries[c].get("country"))
+
+    # rooms in the detailed programme vs the grid transcribed from the PDF
+    grid_room = {}
+    for day in schedule["days"]:
+        for _, _, slot in day["rows"]:
+            if isinstance(slot, list):
+                for i, c in enumerate(slot):
+                    if c:
+                        grid_room[c] = schedule["rooms"][i]
+    grid_board = {c: b[0] for p in schedule["posters"] for b in p["boards"] for c in b[1]}
+    board_diff = [f"{c} (grid {grid_board[c]}, detailed {timeline[c]['board']})" for c in sorted(grid_board)
+                  if c in timeline and timeline[c]["board"] and timeline[c]["board"] not in grid_board[c]]
+    room_diff = [f"{c} (grid {grid_room[c]}, detailed {timeline[c]['room']})" for c in sorted(grid_room)
+                 if c in timeline and timeline[c]["room"] and norm(timeline[c]["room"]) != norm(grid_room[c])]
 
     out = {"themes": THEMES, "schedule": schedule, "entries": entries, "unscheduled": unscheduled}
     dest = ROOT / "docs" / "programme.js"
@@ -204,6 +271,9 @@ def main():
     print(f"in grid but not in code lists ({len(missing)}): {' '.join(missing)}")
     print(f"scheduled without a matched abstract ({len(no_abstract)}): {' '.join(no_abstract)}")
     print(f"in code lists but not in grid ({len(unscheduled)}): {' '.join(unscheduled)}")
+    print(f"detailed programme: {len(timeline)} codes; scheduled talks without speaker country ({len(no_country)}): {' '.join(no_country)}")
+    print(f"room differs between grid and detailed programme ({len(room_diff)}): {'; '.join(room_diff)}")
+    print(f"poster board differs ({len(board_diff)}): {'; '.join(board_diff)}")
     print(f"wrote {dest.relative_to(ROOT)} ({dest.stat().st_size // 1024} KB)")
 
 
