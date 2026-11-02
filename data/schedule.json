@@ -1,0 +1,150 @@
+{
+  "_source": "Transcribed from Programme_X_ICFFR_final.pdf (schematic programme, final version). Oral rows list Rooms 1-5; null means the room is empty in that slot.",
+  "rooms": ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
+  "extraDays": [
+    {"date": "2026-10-31", "label": "Sat Oct 31", "text": "7th Short Course on Fire Safety (Room 1, see related events)"},
+    {"date": "2026-11-01", "label": "Sun Nov 1", "text": "10th Short Course on Fire Behaviour (Room 1, see related events)"},
+    {"date": "2026-11-06", "label": "Fri Nov 6", "text": "Study Tour (see related events)"}
+  ],
+  "days": [
+    {
+      "date": "2026-11-02", "label": "Mon Nov 2",
+      "rows": [
+        ["08:00", "09:00", {"event": "Check-in"}],
+        ["09:00", "10:00", {"event": "Opening Ceremony", "kind": "plenary"}],
+        ["10:00", "10:50", {"keynote": "KN 1"}],
+        ["10:50", "11:00", {"event": "Move to coffee break", "kind": "move"}],
+        ["11:00", "11:30", {"event": "Coffee Break + Poster session", "kind": "break"}],
+        ["11:30", "11:45", ["RAS_02", "RAD_01", "NET_01", "WUI_01", "WMS_01"]],
+        ["11:45", "12:00", ["RAS_03", "RAD_02", "NET_02", "WUI_02", "WMS_02"]],
+        ["12:00", "12:15", ["RAS_04", "RAD_04", "NET_03", "WUI_03", "WMS_03"]],
+        ["12:15", "12:30", ["NET_47", "NET_46", "NET_04", "WUI_04", "WMS_04"]],
+        ["12:30", "14:00", {"event": "Lunch and networking", "kind": "break"}],
+        ["14:00", "14:50", {"keynote": "KN 2"}],
+        ["14:50", "15:00", {"event": "Move to rooms", "kind": "move"}],
+        ["15:00", "15:15", ["RAS_05", "RAD_05", "NET_05", "WUI_05", "WMS_05"]],
+        ["15:15", "15:30", ["RAS_06", "RAD_06", "NET_44", "WUI_06", "WMS_06"]],
+        ["15:30", "15:45", ["RAS_07", "RAD_07", "NET_07", "WUI_07", "WMS_07"]],
+        ["15:45", "16:00", ["RAS_08", "RAD_08", "NET_08", "WUI_08", "WMS_08"]],
+        ["16:00", "16:30", {"event": "Coffee Break + Poster session", "kind": "break"}],
+        ["16:30", "16:45", ["RAS_09", "RAD_09", "NET_09", "WUI_09", "WMS_09"]],
+        ["16:45", "17:00", ["RAS_10", "RAD_10", "NET_10", "WUI_10", "WMS_10"]],
+        ["17:00", "17:15", ["RAS_11", "RAD_11", "NET_11", "WUI_11", "WMS_11"]],
+        ["17:15", "17:30", ["RAS_12", "RAD_12", "NET_12", "WUI_12", "WMS_12"]],
+        ["17:45", "18:30", {"event": "Welcome cocktail", "note": "Foyer of the main auditorium", "kind": "social"}]
+      ]
+    },
+    {
+      "date": "2026-11-03", "label": "Tue Nov 3",
+      "rows": [
+        ["09:00", "09:50", {"keynote": "KN 3"}],
+        ["09:50", "10:00", {"event": "Move to rooms", "kind": "move"}],
+        ["10:00", "10:15", ["WMS_13", "RR_01", "RAS_13", "RAS_21", "NET_13"]],
+        ["10:15", "10:30", ["WMS_14", "RR_02", "RAS_14", "RAS_22", "NET_14"]],
+        ["10:30", "10:45", ["WMS_15", "RR_03", "RAS_15", "RAS_23", "NET_15"]],
+        ["10:45", "11:00", ["WMS_16", "RR_04", "RAS_16", "RAS_24", "NET_16"]],
+        ["11:00", "11:30", {"event": "Coffee Break + Poster session", "kind": "break"}],
+        ["11:30", "11:45", ["WMS_17", "RR_05", "RAS_17", "RAS_25", "NET_17"]],
+        ["11:45", "12:00", ["WMS_18", "RR_06", "RAS_18", "RAS_26", "NET_18"]],
+        ["12:00", "12:15", ["WMS_19", "RR_08", "RAS_19", "RAS_27", "NET_19"]],
+        ["12:15", "12:30", ["WMS_20", null, "RAS_20", "RAS_28", "NET_20"]],
+        ["12:30", "14:00", {"event": "Lunch and networking", "kind": "break"}],
+        ["14:00", "14:50", {"keynote": "KN 4"}],
+        ["14:50", "15:00", {"event": "Move to rooms", "kind": "move"}],
+        ["15:00", "15:15", ["WMS_21", "RR_09", "RAS_29", "WUI_14", "NET_21"]],
+        ["15:15", "15:30", ["WMS_22", "RR_10", "RAS_30", "WUI_15", "NET_22"]],
+        ["15:30", "15:45", ["WMS_23", "RR_11", "RAS_31", "WUI_16", "NET_23"]],
+        ["15:45", "16:00", ["WMS_24", "RR_12", "RAS_32", null, "NET_24"]],
+        ["16:00", "16:30", {"event": "Coffee Break + Poster session", "kind": "break"}],
+        ["16:30", "16:45", ["WMS_25", "RR_13", "RAS_33", "WUI_17", "NET_25"]],
+        ["16:45", "17:00", ["WMS_26", "RR_14", "RAS_34", "WUI_18", "NET_26"]],
+        ["17:00", "17:15", ["WMS_27", "RR_15", "RAS_35", "WUI_19", "NET_27"]],
+        ["17:15", "17:30", ["WMS_28", "RR_16", "RAS_36", "WUI_20", "NET_28"]],
+        ["17:45", "18:15", {"event": "Port of Honour", "note": "Lunch area", "kind": "social"}],
+        ["18:20", "19:00", {"event": "EKVAT Group performance", "note": "Room 1", "kind": "social"}],
+        ["19:30", "23:00", {"event": "Banquet", "kind": "social"}]
+      ]
+    },
+    {
+      "date": "2026-11-04", "label": "Wed Nov 4",
+      "rows": [
+        ["09:00", "09:50", {"keynote": "KN 5"}],
+        ["09:50", "10:00", {"event": "Move to rooms", "kind": "move"}],
+        ["10:00", "10:15", ["RAS_37", "RAD_13", "NET_29", "WUI_21", "WMS_29"]],
+        ["10:15", "10:30", ["RAS_38", "RAD_14", "NET_30", "WUI_22", "WMS_30"]],
+        ["10:30", "10:45", ["RAS_39", "RAD_15", "NET_31", "WUI_25", "WMS_31"]],
+        ["10:45", "11:00", ["RAS_40", "RAD_16", "NET_32", "WUI_26", "WMS_32"]],
+        ["11:00", "11:30", {"event": "Coffee Break + Poster session", "kind": "break"}],
+        ["11:30", "11:45", ["RAS_41", "RAD_17", "NET_33", null, "WMS_35"]],
+        ["11:45", "12:00", ["RAS_42", "RAD_18", "NET_36", null, "WMS_36"]],
+        ["12:00", "12:15", ["RAS_43", "RAD_19", "WUI_27", null, null]],
+        ["12:15", "12:30", ["RAS_44", "RAD_20", "WUI_28", null, null]],
+        ["12:30", "14:00", {"event": "Lunch and networking", "kind": "break"}],
+        ["14:00", "14:50", {"keynote": "KN 6"}],
+        ["14:50", "15:05", {"event": "FAO's Fire Management Hub", "kind": "plenary"}],
+        ["15:05", "15:15", {"event": "Move to rooms", "kind": "move"}],
+        ["15:15", "15:30", ["RAS_45", "RR_17", "NET_37", "WUI_29", "WMS_37"]],
+        ["15:30", "15:45", ["RAS_46", "RR_18", "NET_38", "WUI_30", "WMS_38"]],
+        ["15:45", "16:00", ["RAS_47", "RR_19", "NET_39", "WUI_31", "WMS_40"]],
+        ["16:00", "16:15", ["RAS_48", "RR_20", "NET_40", "WUI_32", null]],
+        ["16:15", "19:00", {"event": "Visit to CEIF's Forest Fire Research Laboratory", "kind": "social"}]
+      ]
+    },
+    {
+      "date": "2026-11-05", "label": "Thu Nov 5",
+      "rows": [
+        ["09:00", "09:50", {"keynote": "KN 7"}],
+        ["09:50", "10:00", {"event": "Move to rooms", "kind": "move"}],
+        ["10:00", "10:15", ["WUI_33", "RR_21", "NET_41", "RAS_49", "WMS_41"]],
+        ["10:15", "10:30", ["WUI_34", "RR_22", "NET_42", "RAS_50", "WMS_42"]],
+        ["10:30", "10:45", ["WUI_35", "RR_23", "NET_43", "RAS_51", "WMS_43"]],
+        ["10:45", "11:00", ["WUI_36", "RR_24", null, null, "WMS_44"]],
+        ["11:00", "11:30", {"event": "Coffee Break + Poster session", "kind": "break"}],
+        ["11:30", "11:45", ["WUI_37", "RR_25", "NET_45", "RAS_53", "WMS_45"]],
+        ["11:45", "12:00", ["WUI_38", "RR_26", "NET_48", "RAS_54", "WMS_47"]],
+        ["12:00", "12:15", ["WUI_39", "RR_27", null, "RAS_55", "WMS_48"]],
+        ["12:15", "12:30", ["WUI_40", "RR_28", null, "RAS_56", "WMS_39"]],
+        ["12:30", "14:00", {"event": "Lunch and networking", "kind": "break"}],
+        ["14:00", "14:15", ["WUI_41", null, "RAS_57", "RAS_61", "WMS_49"]],
+        ["14:15", "14:30", ["WUI_42", null, "RAS_58", "RAS_62", "WMS_50"]],
+        ["14:30", "14:45", ["WUI_43", null, "RAS_60", "RAS_63", "WMS_51"]],
+        ["14:45", "15:00", ["WUI_44", null, null, "RAS_64", "WMS_52"]],
+        ["15:00", "15:05", {"event": "Move to Room 1", "kind": "move"}],
+        ["15:05", "15:45", {"event": "Closure Ceremony", "kind": "plenary"}],
+        ["15:45", "16:15", {"event": "Coffee Break + Poster session", "kind": "break"}]
+      ]
+    }
+  ],
+  "posters": [
+    {"date": "2026-11-02", "label": "Mon Nov 2", "session": "All day", "boards": [
+      ["TV1", ["RR_P_01", "RR_P_02", "RR_P_04"]],
+      ["TV2", ["RR_P_05", "RR_P_06", "RR_P_07", "RR_P_08"]],
+      ["TV3", ["WUI_P_01", "WUI_P_02", "WUI_P_03", "WUI_P_04"]],
+      ["TV4", ["WUI_P_05", "WUI_P_07", "WUI_P_08", "WUI_P_09"]],
+      ["TV5", ["RAS_P_01", "RAS_P_02", "RAS_P_03", "RAS_P_04"]],
+      ["TV6", ["RAS_P_05", "RAS_P_06", "RAS_P_07", "RAS_P_08"]]
+    ]},
+    {"date": "2026-11-03", "label": "Tue Nov 3", "session": "All day", "boards": [
+      ["TV1–TV3", ["WMS_P_03", "WMS_P_04", "WMS_P_05", "WMS_P_06", "WMS_P_07", "WMS_P_08", "WMS_P_09", "WMS_P_10", "WMS_P_11", "WMS_P_12", "WMS_P_13", "WMS_P_14", "WMS_P_16", "WMS_P_17"]],
+      ["TV4", [], "FAO Fire Hub"],
+      ["TV5", ["RAS_P_09", "RAS_P_10", "RAS_P_11", "RAS_P_12"]],
+      ["TV6", ["RAS_P_13", "RAS_P_14", "RAS_P_15", "RAS_P_16", "RAS_P_17"]]
+    ]},
+    {"date": "2026-11-04", "label": "Wed Nov 4", "session": "Morning", "boards": [
+      ["TV1", ["NET_P_01", "NET_P_03", "NET_P_04", "NET_P_05"]],
+      ["TV2", ["NET_P_06", "NET_P_07", "NET_P_08", "NET_P_09"]],
+      ["TV3", ["NET_P_10", "NET_P_11", "NET_P_12", "NET_P_13"]],
+      ["TV4", ["NET_P_15", "NET_P_16", "NET_P_17", "NET_P_18"]],
+      ["TV5", ["NET_P_20", "NET_P_21", "NET_P_22", "NET_P_23"]],
+      ["TV6", ["RAD_P_01", "RAD_P_02", "RAD_P_03", "RAD_P_05", "RAD_P_06"]]
+    ]},
+    {"date": "2026-11-05", "label": "Thu Nov 5", "session": "Morning", "boards": [
+      ["TV1", ["NET_P_01", "NET_P_03", "NET_P_04", "NET_P_05"]],
+      ["TV2", ["NET_P_06", "NET_P_07", "NET_P_08", "NET_P_09"]],
+      ["TV3", ["NET_P_10", "NET_P_11", "NET_P_12", "NET_P_13"]],
+      ["TV4", ["NET_P_15", "NET_P_16", "NET_P_17", "NET_P_18"]],
+      ["TV5", ["NET_P_20", "NET_P_21", "NET_P_22", "NET_P_23"]],
+      ["TV6", ["RAD_P_01", "RAD_P_02", "RAD_P_03", "RAD_P_05", "RAD_P_06"]]
+    ]}
+  ]
+}

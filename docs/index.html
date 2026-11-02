@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICFFR 2026 Programme</title>
+<meta name="description" content="Browsable programme for the 10th International Conference on Forest Fire Research, Coimbra, 2–5 November 2026.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="title">
+    <h1>10th ICFFR <span>Programme</span></h1>
+    <a class="src" href="https://events.adai.pt/en/10th-icffr/programme" target="_blank" rel="noopener">official site ↗</a>
+  </div>
+  <div class="controls">
+    <input id="search" type="search" placeholder="Search title, author, keyword, code…" autocomplete="off">
+    <span id="search-count" class="count"></span>
+  </div>
+  <nav id="tabs" class="tabs" aria-label="Days"></nav>
+  <div id="legend" class="legend"></div>
+</header>
+
+<main id="view"></main>
+
+<div id="tip" class="tip" hidden></div>
+
+<aside id="panel" class="panel" hidden aria-live="polite">
+  <button id="panel-close" class="panel-close" aria-label="Close">×</button>
+  <div id="panel-body"></div>
+</aside>
+<div id="scrim" class="scrim" hidden></div>
+
+<footer class="foot">
+  Unofficial viewer built from the organisers' schematic programme PDF and public presentation lists.
+  Check the <a href="https://events.adai.pt/en/10th-icffr/programme" target="_blank" rel="noopener">official programme</a> for changes.
+  Stars are saved in this browser only.
+</footer>
+
+<script src="programme.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
