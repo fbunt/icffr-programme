@@ -4,7 +4,7 @@ Unofficial, browsable version of the [10th International Conference on Forest Fi
 
 - `data/schedule.json`: the session grid, transcribed by hand from the organisers' schematic programme PDF (final version).
 - `scripts/build_data.py`: fetches the public presenter/title/code lists, the detailed programme (speaker country and institution), keynote pages and abstracts from events.adai.pt, joins them to the grid, and writes `docs/programme.js`. Emails, ORCIDs and review comments that the source pages also carry are left out.
-- `docs/`: the static site served by GitHub Pages.
+- `docs/`: the static site served by GitHub Pages. `docs/qr.svg` (the header's QR button) encodes the fixed address https://fbunt.github.io/icffr-programme/; if the site moves, regenerate it, e.g. `segno -o docs/qr.svg --border 4 <url>`.
 
 Rebuild after the organisers change the lists:
 

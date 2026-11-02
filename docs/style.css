@@ -53,6 +53,17 @@ a { color: var(--accent); }
 h1 { font-size: 18px; margin: 0; }
 h1 span { font-weight: 400; color: var(--muted); }
 .src { font-size: 12px; margin-left: auto; }
+.qr-open {
+  font: inherit; font-size: 12px; font-weight: 600; padding: 2px 8px; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text);
+}
+.qr-open:hover, .qr-open:focus-visible { border-color: var(--accent); color: var(--accent); }
+.qr { padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.qr::backdrop { background: rgba(10, 15, 25, .5); }
+.qr-box { position: relative; padding: 40px 24px 16px; text-align: center; }
+.qr-box img { display: block; width: min(240px, 70vw); height: auto; border-radius: 6px; } /* white quiet zone is in the SVG */
+.qr-box .panel-close { position: absolute; top: 8px; right: 10px; float: none; }
+.qr-url { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
 .controls { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
 .search-wrap { position: relative; flex: 1; min-width: 0; max-width: 520px; }
 #search {

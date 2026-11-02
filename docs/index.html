@@ -12,6 +12,7 @@
   <div class="title">
     <h1>10th ICFFR <span>Programme</span></h1>
     <a class="src" href="https://events.adai.pt/en/10th-icffr/programme" target="_blank" rel="noopener">official site ↗</a>
+    <button id="qr-open" class="qr-open" type="button" aria-label="Show a QR code for this site">QR</button>
   </div>
   <div class="controls">
     <div class="search-wrap">
@@ -33,6 +34,14 @@
   <div id="panel-body"></div>
 </aside>
 <div id="scrim" class="scrim" hidden></div>
+
+<dialog id="qr" class="qr" aria-label="QR code for this site">
+  <div class="qr-box">
+    <button id="qr-close" class="panel-close" type="button" aria-label="Close">×</button>
+    <img src="qr.svg" alt="QR code linking to https://fbunt.github.io/icffr-programme/" width="240" height="240">
+    <p class="qr-url">fbunt.github.io/icffr-programme</p>
+  </div>
+</dialog>
 
 <footer class="foot">
   Unofficial viewer built from the organisers' schematic programme PDF and public presentation lists.

@@ -300,8 +300,27 @@
     if (panelEntry) { panelEntry = false; history.back(); }
     else history.replaceState(null, "", baseURL());
   }
+  // The QR dialog takes a history entry too, so back closes it on phones.
+  const qr = $("#qr");
+  let qrEntry = false;
+  function openQR() {
+    if (qr.open) return;
+    hideTip();
+    qr.showModal();
+    history.pushState({ qr: true }, "", location.href);
+    qrEntry = true;
+  }
+  qr.addEventListener("close", () => { // close button, Escape or backdrop
+    if (qrEntry) { qrEntry = false; history.back(); }
+  });
+  qr.addEventListener("click", (ev) => { if (ev.target === qr || ev.target.closest("#qr-close")) qr.close(); });
+  $("#qr-open").addEventListener("click", openQR);
+
   addEventListener("popstate", (ev) => {
-    const code = ev.state && ev.state.panel;
+    const st = ev.state || {};
+    if (st.qr) { if (!qr.open) { qr.showModal(); } qrEntry = true; return; } // forward button
+    if (qr.open) { qrEntry = false; qr.close(); }
+    const code = st.panel;
     if (code && E[code]) { showPanel(code); panelEntry = true; } // forward button
     else { hidePanel(); panelEntry = false; }
   });
@@ -333,6 +352,7 @@
     if (t === scrim || t.closest("#panel-close")) closePanel();
   });
   document.addEventListener("keydown", (ev) => {
+    if (qr.open) return; // the dialog handles its own Escape
     if (ev.key === "Escape") { if (!panel.hidden) closePanel(); else if (query || $("#search").value) clearSearch(); }
     if (ev.key === "/" && document.activeElement !== $("#search")) { ev.preventDefault(); $("#search").focus(); }
   });
