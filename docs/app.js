@@ -333,7 +333,7 @@
     if (t === scrim || t.closest("#panel-close")) closePanel();
   });
   document.addEventListener("keydown", (ev) => {
-    if (ev.key === "Escape") { if (!panel.hidden) closePanel(); else if (query) { $("#search").value = ""; setQuery(""); } }
+    if (ev.key === "Escape") { if (!panel.hidden) closePanel(); else if (query || $("#search").value) clearSearch(); }
     if (ev.key === "/" && document.activeElement !== $("#search")) { ev.preventDefault(); $("#search").focus(); }
   });
   function setQuery(q) {
@@ -345,12 +345,23 @@
     }
   }
   let qTimer;
-  $("#search").addEventListener("input", (ev) => { clearTimeout(qTimer); qTimer = setTimeout(() => setQuery(ev.target.value), 120); });
+  const searchBox = $("#search"), searchClear = $("#search-clear");
+  const syncClear = () => { searchClear.hidden = !searchBox.value; };
+  function clearSearch() {
+    clearTimeout(qTimer);
+    searchBox.value = "";
+    syncClear();
+    setQuery("");
+  }
+  searchBox.addEventListener("input", (ev) => { syncClear(); clearTimeout(qTimer); qTimer = setTimeout(() => setQuery(ev.target.value), 120); });
+  searchClear.addEventListener("click", () => { clearSearch(); searchBox.focus(); });
+  syncClear(); // browsers may restore text into the box on reload; apply it below once rendering is set up
 
   addEventListener("resize", setHdr);
 
   render();
   setHdr();
+  if (searchBox.value) setQuery(searchBox.value);
   let hash = "";
   try { hash = decodeURIComponent(location.hash.slice(1)); } catch { /* malformed link */ }
   if (hash && E[hash]) {

@@ -14,7 +14,10 @@
     <a class="src" href="https://events.adai.pt/en/10th-icffr/programme" target="_blank" rel="noopener">official site ↗</a>
   </div>
   <div class="controls">
-    <input id="search" type="search" placeholder="Search title, author, keyword, code…" autocomplete="off">
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="Search title, author, keyword, code…" autocomplete="off">
+      <button id="search-clear" class="search-clear" type="button" aria-label="Clear search" hidden>×</button>
+    </div>
     <span id="search-count" class="count"></span>
   </div>
   <nav id="tabs" class="tabs" aria-label="Days"></nav>

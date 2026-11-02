@@ -54,10 +54,19 @@ h1 { font-size: 18px; margin: 0; }
 h1 span { font-weight: 400; color: var(--muted); }
 .src { font-size: 12px; margin-left: auto; }
 .controls { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+.search-wrap { position: relative; flex: 1; min-width: 0; max-width: 520px; }
 #search {
-  flex: 1; min-width: 0; max-width: 520px; font: inherit; padding: 7px 10px;
+  width: 100%; font: inherit; padding: 7px 36px 7px 10px;
   border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text);
 }
+#search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; } /* use our own × everywhere */
+.search-clear {
+  position: absolute; top: 50%; right: 4px; transform: translateY(-50%);
+  width: 30px; height: 30px; border: 0; border-radius: 50%; background: none;
+  color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer;
+}
+.search-clear:hover, .search-clear:focus-visible { background: var(--line); color: var(--text); }
+.search-clear[hidden] { display: none; }
 .count { color: var(--muted); font-size: 12px; white-space: nowrap; }
 .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
